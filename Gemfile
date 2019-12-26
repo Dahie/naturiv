@@ -2,5 +2,5 @@
 
 source 'https://rubygems.org'
 
-gem 'sinatra'
 gem 'alexa_skills_ruby'
+gem 'sinatra'
