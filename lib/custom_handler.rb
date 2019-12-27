@@ -24,7 +24,7 @@ class CustomHandler
 
     puts request.inspect
     if type == :launch
-      alexa.response.tell(WELCOME_MESSAGE)
+      response.tell(WELCOME_MESSAGE)
     elsif type == :intent && request.intent_name == 'NewEntry'
       slots = {}
       request.slots.each do |slot|
@@ -33,11 +33,16 @@ class CustomHandler
 
       spreadsheet_service.add_row(slots)
 
-      alexa.response.tell(SAVE_SUCCESS_MESSAGE)
+      response.tell(SAVE_SUCCESS_MESSAGE)
+      card = {
+        type: 'Standard', title: 'Platte gespeichert', content: SAVE_SUCCESS_MESSAGE
+      }
+      response.add_card(card)
+
     end
 
 
-    alexa.response.json
+    response.json
   end
 
   def request
