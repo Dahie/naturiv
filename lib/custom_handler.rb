@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'sinatra'
 require 'alexa_skills_ruby'
 
 class CustomHandler < AlexaSkillsRuby::Handler
@@ -12,9 +11,7 @@ class CustomHandler < AlexaSkillsRuby::Handler
   end
 
   on_intent('NewEntry') do
-    slots = request.intent.slots
-
-    puts slots.inspect
+    # slots = request.intent.slots
 
     response.set_output_speech_text('Danke, die Platte ist gespeichert.')
     # response.set_output_speech_ssml(
@@ -23,38 +20,13 @@ class CustomHandler < AlexaSkillsRuby::Handler
     # response.set_reprompt_speech_ssml(
     #  "<speak>Reprompt Horoscope Text</speak>")
     logger.info 'NewEntryIntent processed'
-
-    puts session_attributes.inspect
-    session_attributes['started_at'] = Time.zone.now
   end
 
   on_intent('HelpIntent') do
     response.set_output_speech_text('Ich helfe noch gar nischt!')
   end
-end
 
-get '/' do
-  'hey, naturiv is alive'
-end
-
-post '/' do
-  content_type :json
-
-  hdrs = {
-    'Signature' => request.env['HTTP_SIGNATURE'],
-    'SignatureCertChainUrl' => request.env['HTTP_SIGNATURECERTCHAINURL']
-  }
-
-  application_id = ENV['APPLICATION_ID']
-
-  handler = CustomHandler.new(application_id: application_id,
-                              logger: logger)
-  body = request.body.read
-
-  begin
-    handler.handle(body, hdrs)
-  rescue AlexaSkillsRuby::Error => e
-    logger.error e.to_s
-    403
+  def spreadsheet_service
+    @spreadsheet_service ||= SpreadsheetService.new(ENV['SPREADSHEET_ID'])
   end
 end

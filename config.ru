@@ -1,4 +1,4 @@
 # frozen_string_literal: true
 
-require './app'
+require './lib/app'
 run Sinatra::Application
