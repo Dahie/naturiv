@@ -11,7 +11,14 @@ class CustomHandler < AlexaSkillsRuby::Handler
   end
 
   on_intent('NewEntry') do
-    # slots = request.intent.slots
+    slots = request.intent.slots
+
+    puts slots.inspect
+    puts slots.transform_keys! { |key| key.to_s.downcase.to_sym }
+
+    puts slots.inspect
+
+    spreadsheet_service.add_row(slots)
 
     response.set_output_speech_text('Danke, die Platte ist gespeichert.')
     # response.set_output_speech_ssml(

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'erb'
 require 'google_drive'
 
 class SpreadsheetService
@@ -17,7 +18,7 @@ class SpreadsheetService
     fill_value(new_row_index, 4, width)
     fill_value(new_row_index, 5, length)
     fill_value(new_row_index, 6, '')
-    fill_value(new_row_index, 7, Time.zone.now)
+    fill_value(new_row_index, 7, Time.now)
     worksheet.save
   end
 
@@ -37,11 +38,18 @@ class SpreadsheetService
     @spreadsheet ||= session.spreadsheet_by_key(spreadsheet_id)
   end
 
-  def config_file
-    ERB.new(File.read('config.yml')).result
+  def config
+    OpenStruct.new(save: true,
+                   client_id: ENV['DRIVE_CLIENT_ID'],
+                   client_secret: ENV['DRIVE_CLIENT_SECRET'],
+                   scope: [
+                     'https://www.googleapis.com/auth/drive',
+                     'https://spreadsheets.google.com/feeds/'
+                   ],
+                   refresh_token: ENV['DRIVE_REFRESH_TOKEN'])
   end
 
   def session
-    @session ||= GoogleDrive::Session.from_config(config_file)
+    @session ||= GoogleDrive::Session.from_config(config)
   end
 end
