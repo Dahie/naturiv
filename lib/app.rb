@@ -23,8 +23,8 @@ post '/' do
   body = request.body.read
 
   begin
-    handler.handle(body, hdrs)
-  rescue AlexaSkillsRuby::Error => e
+    handler.handle(body)
+  rescue StandardError => e
     logger.error e.to_s
     403
   end

@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-gem 'alexa_skills_ruby'
+gem 'alexa_ruby'
 gem 'google_drive'
 gem 'sinatra'
 
