@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'sinatra'
-require './custom_handler'
-require './spreadsheet_service'
+require './lib/custom_handler'
+require './lib/spreadsheet_service'
 
 get '/' do
   'hey, naturiv is alive'
