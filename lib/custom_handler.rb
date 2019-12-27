@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'alexa_ruby'
+require 'ralyxa'
 
 class CustomHandler
 
