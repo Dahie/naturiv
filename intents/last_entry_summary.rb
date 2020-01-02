@@ -22,6 +22,6 @@ intent 'LastEntrySummary' do
     card = card('Letzte gespeicherte Platte', card_text)
     respond(success_message, card: card)
   else
-    ask('Ok, die Platte wurde nicht gespeichert. Bitte gib sie noch einmal an.')
+    respond('Es wurde noch keine Platte angelegt.')
   end
 end
