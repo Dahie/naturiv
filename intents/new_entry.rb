@@ -7,7 +7,8 @@ intent "NewEntry" do
       surface: request.slot_value('Surface'),
       thickness: request.slot_value('Thickness'),
       width: request.slot_value('Width'),
-      length: request.slot_value('Length')
+      length: request.slot_value('Length'),
+      amount: request.slot_value('Amount')
     }
 
     spreadsheet_service = SpreadsheetService.new(ENV['SPREADSHEET_ID'])
