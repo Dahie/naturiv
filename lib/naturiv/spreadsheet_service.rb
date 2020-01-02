@@ -3,6 +3,8 @@
 require 'erb'
 require 'google_drive'
 
+COLUMN_MAPPING = %w[material surface thickness width length amount].freeze
+
 class SpreadsheetService
   attr_reader :spreadsheet_id
 
@@ -10,26 +12,35 @@ class SpreadsheetService
     @spreadsheet_id = spreadsheet_id
   end
 
-  def add_row(material: '',
-              surface: '',
-              thickness: '',
-              width: '',
-              length: '',
-              amount: 1)
-    new_row_index = rows_count + 1
-    fill_value(new_row_index, 1, material)
-    fill_value(new_row_index, 2, surface)
-    fill_value(new_row_index, 3, thickness)
-    fill_value(new_row_index, 4, width)
-    fill_value(new_row_index, 5, length)
-    fill_value(new_row_index, 6, amount)
-    fill_value(new_row_index, 7, '')
-    fill_value(new_row_index, 8, Time.now)
+  def add_row(record)
+    row_index = rows_count + 1
+    COLUMN_MAPPING.each_with_index do |datafield, index|
+      col_index = index + 1
+      fill_value(row_index, col_index, record.send(datafield))
+    end
+
+    fill_value(row_index, 7, '')
+    fill_value(row_index, 8, Time.now)
     worksheet.save
   end
 
   def fill_value(row_index, col_index, value)
     worksheet[row_index, col_index] = value
+  end
+
+  def last_row
+    row = worksheet.rows.last
+    puts row.inspect
+    Record.new.tap do |record|
+      record.material = row[0]
+      record.surface = row[1]
+      record.thickness = row[2]
+      record.width = row[3]
+      record.height = row[4]
+      record.amount = row[5]
+      record.comment = row[6]
+      record.created_at = row[7]
+    end
   end
 
   def worksheet

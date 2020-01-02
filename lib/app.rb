@@ -2,7 +2,8 @@
 
 require 'sinatra'
 require 'ralyxa'
-require './lib/spreadsheet_service'
+require './lib/naturiv/record'
+require './lib/naturiv/spreadsheet_service'
 
 get '/' do
   'hey, naturiv is alive'
