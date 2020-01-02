@@ -10,15 +10,21 @@ class SpreadsheetService
     @spreadsheet_id = spreadsheet_id
   end
 
-  def add_row(material: '', surface: '', thickness: '', width: '', length: '')
+  def add_row(material: '',
+              surface: '',
+              thickness: '',
+              width: '',
+              length: '',
+              amount: 1)
     new_row_index = rows_count + 1
     fill_value(new_row_index, 1, material)
     fill_value(new_row_index, 2, surface)
     fill_value(new_row_index, 3, thickness)
     fill_value(new_row_index, 4, width)
     fill_value(new_row_index, 5, length)
-    fill_value(new_row_index, 6, '')
-    fill_value(new_row_index, 7, Time.now)
+    fill_value(new_row_index, 6, amount)
+    fill_value(new_row_index, 7, '')
+    fill_value(new_row_index, 8, Time.now)
     worksheet.save
   end
 
