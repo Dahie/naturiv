@@ -3,6 +3,7 @@
 require 'sinatra'
 require 'ralyxa'
 require './lib/naturiv/record'
+require './lib/naturiv/interactors/last_entry_summary'
 require './lib/naturiv/spreadsheet_service'
 
 get '/' do
