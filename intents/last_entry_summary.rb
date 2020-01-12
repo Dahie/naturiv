@@ -3,5 +3,5 @@
 intent 'LastEntrySummary' do
   result = LastEntrySummary.call
   card = card(card.card_title, result.card_message)
-  respond(result.success_message, card: card)
+  respond(result.voice_message, card: card)
 end
